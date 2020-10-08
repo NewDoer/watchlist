@@ -76,7 +76,7 @@ def index():
         movie = Movie(title=title,year=year)
         db.session.add(movie)
         db.session.commit()
-        flash('Item creatd.')
+        flash('Item created.')
         return redirect(url_for('index'))
     
     # user = User.query.first()
@@ -119,21 +119,18 @@ def login():
         #读出浏览器传过来的表单数据
         username = request.form['username']
         password = request.form['password']
-        
         #验证数据是否为空
         if not username or not password:
             flash("Invalid input")
             return redirect(url_for('login'))
-        
         #读取数据模型第一条数据
         user = User.query.first()
-        
         #验证用户名和密码是否一致
         if username == user.username and user.validate_password(password):
             login_user(user) #登录用户
             flash('Login success')
             return redirect(url_for('index'))
-        flash('错误的用户名或密码')
+        flash("Invalid username or password.")
         return redirect(url_for('login'))
     return render_template('login.html')
 
@@ -153,10 +150,11 @@ def settings():
         flash(name)
         if not name or len(name) >20:
             flash('Invalid input.')
+            return redirect(url_for('settings'))
         
         current_user.name = name # 把当前登录对象的name属性替换成form提交的属性
         db.session.commit()
-        flash('Settings updates.')
+        flash('Settings updated.')
         return redirect(url_for('index'))
     
     return render_template('settings.html')
@@ -190,7 +188,7 @@ def initdb(drop):
     if drop:
         db.drop_all()
     db.create_all()
-    click.echo("Initalized database.")
+    click.echo("Initialized database.")
 
 @app.cli.command()
 @click.option('--username',prompt=True,help='The username used to login.')
