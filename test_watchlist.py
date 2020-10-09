@@ -9,7 +9,9 @@ from unittest.case import TestCase
 
 from flask.cli import main
 from flask.wrappers import Response
-from app import app,db,Movie,User,forge,initdb
+from watchlist import app,db
+from watchlist.models import Movie,User
+from watchlist.commands import forge,initdb
 
 #TestCase测试案例，即用一组虚拟数据进行的测试
 class WatchlistTestCase(unittest.TestCase):
